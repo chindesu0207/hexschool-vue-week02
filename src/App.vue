@@ -65,6 +65,7 @@ const checkOut = async () => {
     })
     userData.value = res.data
     isLogin.value = true
+    getTodos();
   } catch (error) {
     console.log(error)
   }
@@ -73,6 +74,7 @@ const checkOut = async () => {
 const signOut = () => {
   document.cookie = `todoToken=true; max-age=0;`
   isLogin.value = false
+  todoList.value=[]
 }
 
 const todoList = ref([])
@@ -86,8 +88,6 @@ const getTodos = async () => {
       }
     })
     todoList.value = res.data.data
-    const num = todoList.value.length
-    console.log(num)
   } catch (error) {
     console.log(error)
   }
@@ -105,7 +105,7 @@ const addTodo = async () => {
         Authorization: token
       }
     })
-    newTodo.value = ''
+    newTodo.value = {}
     getTodos()
   } catch (error) {
     console.log(error)
@@ -173,9 +173,9 @@ const updateStatus = async (id) => {
 }
 
 onMounted(() => {
-  checkOut()
-  getTodos()
+  checkOut();
 })
+// getTodos();
 </script>
 
 <template>
@@ -186,7 +186,6 @@ onMounted(() => {
       <button class="btn btn-outline-primary ms-2" type="button" @click="signOut">登出</button>
     </div>
   </div>
-  <div v-if="isLogin"></div>
   <div v-else class="row justify-content-center">
     <div class="col-4">
       <div class="card text-center">
@@ -266,7 +265,7 @@ onMounted(() => {
       />
       <button class="btn btn-outline-primary" type="button" @click="addTodo">增加</button>
     </div>
-    <table v-if="todoList.length>0" class="table">
+    <table v-if="todoList.length!=0" class="table">
       <thead>
         <tr>
           <th scope="col" class="text-center col-1">#</th>
