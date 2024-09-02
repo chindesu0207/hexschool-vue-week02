@@ -34,6 +34,8 @@ const userData = ref({
   uid: ''
 })
 
+const errorMsg = ref('')
+
 const signUp = async () => {
   try {
     const res = await axios.post(`${api}/users/sign_up`, signUpData.value)
@@ -41,8 +43,7 @@ const signUp = async () => {
     signInPage.value = true
     signUpData.value = {}
   } catch (error) {
-    console.log(error)
-  }
+    errorMsg.value = error.response.data.message  }
 }
 
 const signIn = async () => {
@@ -51,7 +52,7 @@ const signIn = async () => {
     document.cookie = `todoToken=${res.data.token};`
     checkOut()
   } catch (error) {
-    console.log(error)
+    errorMsg.value = error.response.data.message
   }
 }
 
@@ -175,7 +176,6 @@ const updateStatus = async (id) => {
 onMounted(() => {
   checkOut();
 })
-// getTodos();
 </script>
 
 <template>
@@ -223,6 +223,7 @@ onMounted(() => {
               class="form-control"
             />
             <br />
+            <div v-if="errorMsg" class="text-danger mb-3">{{ errorMsg }}</div>
             <button type="button" class="btn btn-primary" @click="signIn">登入</button>
           </div>
           <div v-else>
@@ -247,6 +248,7 @@ onMounted(() => {
               class="form-control"
             />
             <br />
+            <div v-if="errorMsg" class="text-danger mb-3">{{ errorMsg }}</div>
             <button type="button" class="btn btn-primary" @click="signUp">註冊</button>
           </div>
         </div>
