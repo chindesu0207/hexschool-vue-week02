@@ -266,8 +266,7 @@ onMounted(() => {
       />
       <button class="btn btn-outline-primary" type="button" @click="addTodo">增加</button>
     </div>
-    <h4 v-if="todoList.length==0" class="text-center">目前沒有任何待辦事情</h4>
-    <table v-else class="table">
+    <table v-if="todoList.length>0" class="table">
       <thead>
         <tr>
           <th scope="col" class="text-center col-1">#</th>
@@ -315,5 +314,6 @@ onMounted(() => {
         </tr>
       </tbody>
     </table>
+    <h4 v-else class="text-center">目前沒有任何待辦事情</h4>
   </div>
 </template>
