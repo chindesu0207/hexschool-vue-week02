@@ -42,6 +42,7 @@ const signUp = async () => {
     uid.value = res.data.uid
     signInPage.value = true
     signUpData.value = {}
+    errorMsg.value = ''
   } catch (error) {
     errorMsg.value = error.response.data.message  }
 }
@@ -51,6 +52,7 @@ const signIn = async () => {
     const res = await axios.post(`${api}/users/sign_in`, signInData.value)
     document.cookie = `todoToken=${res.data.token};`
     checkOut()
+    errorMsg.value=''
   } catch (error) {
     errorMsg.value = error.response.data.message
   }
